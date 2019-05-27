@@ -10,7 +10,7 @@ module Requests
   end
 
   module HeaderHelpers
-    def header_with_authentication User
+    def header_with_authentication user
       return user.create_new_auth_token.merge({ 'HTTP_ACCEPT': 'application/json' })
     end
 

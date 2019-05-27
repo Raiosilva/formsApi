@@ -10,7 +10,8 @@ class Answer < ApplicationRecord
     ActiveRecord::Base.transaction do
       answer = Answer.create(form: form)
       questions_answers.each do |qa|
-        answer.questions_answers.create(qa.permit(:question_id, :value))
+        answer.questions_answers.create(value: qa['value'], question_id: qa['question']['id'])
+
       end
     end
     answer

@@ -25,7 +25,7 @@ RSpec.describe "Api::V1::Forms", type: :request do
 
       it 'returned Forms have right datas' do
         expect(json[0]).to eql(JSON.parse(@form1.to_json))
-        expect(json[2]).to eql(JSON.parse(@form2.to_json))
+        expect(json[1]).to eql(JSON.parse(@form2.to_json))
       end
     end
   end
@@ -115,8 +115,8 @@ RSpec.describe "Api::V1::Forms", type: :request do
             post "/api/v1/forms", params: {form: {}}, headers: header_with_authentication(@user)
           end
 
-          it "returns 400" do
-            expect_status(400)
+          it "returns 401" do
+            expect(response).to eq(401)
           end
         end
       end
@@ -191,11 +191,16 @@ RSpec.describe "Api::V1::Forms", type: :request do
         @user = create(:user)
       end
 
+      context "With Invalid authentication headers" do
+        it_behaves_like :deny_without_authorization, :delete, "/api/v1/forms/questionary"
+      end
+
       context "When form exists" do
 
         context "And user is the owner" do
           before do
             @form = create(:form, user: @user)
+            @question = create(:question, form: @form)
             delete "/api/v1/forms/#{@form.friendly_id}", params: {}, headers: header_with_authentication(@user)
           end
 

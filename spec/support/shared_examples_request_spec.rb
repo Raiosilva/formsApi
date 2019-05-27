@@ -1,4 +1,4 @@
-shared_examples_for :deny_without_autorization do |method|_type, action, params = {}|
+shared_examples_for :deny_without_authorization do |method_type, action, params = {}|
   it 'returns unauthorized(401) request' do
     case method_type
       when :get
@@ -9,16 +9,16 @@ shared_examples_for :deny_without_autorization do |method|_type, action, params 
         post action,
           params: params,
           headers: header_without_authentication
-      when :post
+      when :put
         put action,
           params: params,
           headers: header_without_authentication
-      when :post
+      when :delete
         delete action,
           params: params,
           headers: header_without_authentication
       end
 
-    expect(response.status).to eql(401)
+    expect(response.status).to eq(401)
   end
 end

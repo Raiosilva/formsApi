@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20190523232253) do
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "title",                     null: false
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
     t.string   "sluggable_type", limit: 50
